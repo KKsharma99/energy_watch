@@ -1,0 +1,40 @@
+Energy Watch Spring 2019 Brainstorming
+
+1. Better Grouping and Visualization of building types:
+Conduct PCA Analysis and visualize the data in 3 Dimensions - Clustering
+^ Use PCA only for visualization but not for the clustering
+
+Use Euclidian Distance between time series data and do agglomerative	hierarchical clustering.
+
+https://arxiv.org/ftp/arxiv/papers/1603/1603.07602.pdf
+
+Once data is clustered, plot all the energy signatures for each cluster onto their own plot and find the mean curve.
+
+Notes on Pattern Feature Extraction: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6083844
+
+https://www.sciencedirect.com/science/article/pii/B9780128119686000097
+
+2. Forecasting Time Series Energy Consumption
+https://www.researchgate.net/publication/314086599_A_review_on_time_series_forecastingtechniques_for_building_energy_consumption
+
+https://www.researchgate.net/publication/261168634_Building_Energy_Use_Prediction_Using_Time_Series_Analysis
+
+
+Fast Forier Transform Forecasting: https://www.youtube.com/watch?v=VYpAodcdFfA
+Using ARIMA for forecasting: https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
+
+Seq2Seq model uses neural networks and hidden states for prediction: You could encode time series data as well as other signals (Time of week, weather, etc)
+
+
+
+3. Anomalie Detection
+
+
+
+4. Data Visualization Dashboard
+Key Features:
+     - Building type classification by date
+     - Forecast of Building Energy Consumption
+     - Anomalie Detection
+
+Dashboard that streams the data
