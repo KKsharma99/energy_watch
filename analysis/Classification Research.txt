@@ -1,0 +1,15 @@
+2019 Spring AE Research Brainstorming
+
+Better Grouping and Visualization of building types:
+Conduct PCA Analysis and visualize the data in 3 Dimensions - Clustering
+^ Use PCA only for visualization but not for the clustering
+
+Use Euclidian Distance between time series data and do agglomerative	hierarchical clustering.
+
+https://arxiv.org/ftp/arxiv/papers/1603/1603.07602.pdf
+
+Once data is clustered, plot all the energy signatures for each cluster onto their own plot and find the mean curve.
+
+Notes on Pattern Feature Extraction: https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6083844
+
+https://www.sciencedirect.com/science/article/pii/B9780128119686000097

@@ -1,0 +1,23 @@
+Energy Watch Spring 2019 Brainstorming
+
+
+1. Forecasting Time Series Energy Consumption
+https://www.researchgate.net/publication/314086599_A_review_on_time_series_forecastingtechniques_for_building_energy_consumption
+
+https://www.researchgate.net/publication/261168634_Building_Energy_Use_Prediction_Using_Time_Series_Analysis
+
+Fast Forier Transform Forecasting: https://www.youtube.com/watch?v=VYpAodcdFfA
+Using ARIMA for forecasting: https://towardsdatascience.com/an-end-to-end-project-on-time-series-analysis-and-forecasting-with-python-4835e6bf050b
+
+Seq2Seq model uses neural networks and hidden states for prediction: You could encode time series data as well as other signals (Time of week, weather, etc)
+
+
+3. Anomaly Detection
+
+4. Data Visualization Dashboard
+Key Features:
+     - Building type classification by date
+     - Forecast of Building Energy Consumption
+     - Anomalie Detection
+
+Dashboard that streams the data
