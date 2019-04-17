@@ -1,6 +1,7 @@
 # Importing the libraries
 import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
 import json
 from sklearn.preprocessing import StandardScaler
 import pickle
@@ -8,28 +9,25 @@ from . import tools
 
 
 class Classify:
+
+    # Classify Object Classify's the Data in the Data Object
+    # Classifications of Building Consumption Behavior Include
+    # -1 - Below Threshold -> Energy Consumption is Very Low
+    #  0 - Cocentric       -> Consumption is relatively uniform
+    #  1 - People          -> Building has higher consumption during work hours
+    #  2 - Scheduler       -> Building that Operates With a Scheduler
+    #  3 - Reverse         -> Energy Usage is Greater During Work Hours
+    #  4 - Random          -> Abnormal Energy Behavior, Can't be Classified
+    # 
+    # self.data   = Original Consumption
+    # self.thresh = Threshold Level to Classify as Below Threshold (kwH)
+    # self.classifications = [ bldgnames(arr), dates(arr), classifications(2d arr)]
     def __init__(self, data, thresh):
-        self.data = data.get_data()
+        self.data = data.data
         self.thresh = thresh
         self.classifications = self.gen_classifications()
      
-    # Get the Dataframe
-    # returns Dataframe
-    def get_data(self):
-        return self.data
-        
-    # Get Threshold Level
-    # returns Threshold level
-    def get_thresh(self):
-        return self.thresh
-    
-    # Get Classification Data
-    # returns Classification Data (Dataframe)
-    def get_classifications(self):
-        return self.classifications  
-    
-    # Get Classifications for All Buildings at Every Day
-    # Param data - Dataframe to classify
+    # Get Classifications for All Buildings for Every Day in the Data Object
     def gen_classifications(self):
         energy_data = self.reshape_data()
         original_len = len(energy_data)
@@ -45,10 +43,10 @@ class Classify:
         energy_data = sc.fit_transform(energy_data)
 
         # Get List of Buildings
-        buildings = list(self.get_data())[1:]
+        buildings = list(self.data)[1:]
 
         # Get List of dates
-        dates = pd.DataFrame(self.get_data().iloc[:,0])
+        dates = pd.DataFrame(self.data.iloc[:,0])
         dates = self.group_df(df=dates, method="mean", interval='day')
         for i in range(dates.shape[0]): dates.iloc[i, 0] = dates.iloc[i, 0].split()[0]
         dates = list(dates.iloc[:, 0])
@@ -75,10 +73,11 @@ class Classify:
         
         # Remove Weekends and Holidays from the Dataset
         wkday_bldg = bldg_classes[bldg_classes['Day_Type'] > 0].reset_index()
+
         return self.table_bldg_classes(wkday_bldg)
 
 
-    # Plot Building Types over Time Given a Dataframe with the Columns: 'Building', 'Data', 'Type'
+    # Create Dataframe with the Columns: 'Building', 'Data', 'Type'
     # param bldg_df (dataframe): dataframe with the building data
     # return bldg_classes [bldg label (arr), dates (arr), types(arr)]
     def table_bldg_classes(self, bldg_df):
@@ -91,10 +90,11 @@ class Classify:
         prev_bldg = bldg_df['Building'][0]
         dates = []
         bldg_type = []
+
         for i in range(len(bldg_df)):    
             curr_bldg = bldg_df['Building'][i]
             # Graph Old Building if Current Bldg is New or Last Bldg
-            if curr_bldg != prev_bldg or i == len(bldg_df):
+            if (curr_bldg != prev_bldg) or (i == len(bldg_df) - 1):
                 counter += 1
                 bldgs_labels.append(prev_bldg)
                 dates_arr.append(dates)
@@ -105,6 +105,7 @@ class Classify:
             else:
                 dates.append(bldg_df['Date'][i])
                 bldg_type.append(bldg_df['Type'][i])
+
         return [bldgs_labels, dates_arr, types_arr]
 
     # Remove Instances With Energy Usage Below thresh kwH
@@ -166,3 +167,18 @@ class Classify:
         rows_per_instance = int(X.shape[0]/new_col_ct)
         X = X.T.values.reshape(X.shape[1] * rows_per_instance, new_col_ct)
         return X
+
+    # Create a Bar Graph Summarizing Classification Type Frequency
+    def graph_bar_summary(self):
+        type_labels = ["Below Threshold", "Cocentric", "People", "Scheduler", "Reverse", "Random"]
+        counts = [0, 0, 0, 0, 0, 0]
+        for classifications in self.classifications[2]:
+            for classified in classifications:
+                counts[classified + 1] += 1
+
+        for i in len(counts): print(type_labels + ": " + str(counts[i]))
+        
+        plt.title("Classification Type Frequency")
+        plt.bar(x=[0,1,2,3,4,5], height=counts, tick_label=type_labels)
+        plt.xticks(rotation='vertical')
+        plt.show()

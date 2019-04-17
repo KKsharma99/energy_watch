@@ -5,15 +5,14 @@ import json
 from sklearn.preprocessing import StandardScaler
 
 class Data:
-    def __init__(self):
-        self.data = pd.read_csv('../data/year_data/2018-01-01_2018-08-30.csv')
 
-    # Get the Dataframe
-    # returns Dataframe
-    def get_data(self):
-        return self.data
-        
-    # Return a Json Dict of building energy consumption totals from Jan 1, Aug 30
+    # Data Object That Holds the Energy Consumption Data
+    # Object has tools to select sections of the original data
+    def __init__(self, data='../data/year_data/2018-01-01_2018-08-30.csv'):
+        self.data = pd.read_csv(data)
+        self.bldgs = list(self.data.columns)[1:]
+
+    # Returns a Json Dict of building energy consumption totals from Jan 1, Aug 30
     # 'columns' - Building Names
     # 'data' - Building Energy Consumption Totals
     def get_bldg_totals(self):
@@ -24,7 +23,6 @@ class Data:
         bldg_tot['data'] = bldg_tot['data'][0]
         return bldg_tot
 
-    
     # Get the Starting and Ending Indexes Between Two Months
     # param start (int) - Number representing the Month
     # param end (int) - Number representing the Ending Month

@@ -6,8 +6,8 @@ from sklearn.preprocessing import StandardScaler
 from datetime import date
 
 class Tools:
+    # Class with useful function for the rest of the library
     def __init__(self):
-        print('Tools Made')
         pass
     
     # Convert a time interval into the correct number of rows
@@ -18,8 +18,6 @@ class Tools:
         elif ":" in interval: return int(interval.split(':')[0])*4 + int(interval.split(':')[1])//15
         else: return
 
-    def hello():
-        print("Hello")
     # param arrays (arr) An array of arrays (data for each column)
     # param labels (arr) An array of associated labels (str)
     # return df final dataframe
