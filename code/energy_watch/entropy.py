@@ -92,20 +92,28 @@ class Entropy:
     # returns (arr) Associated Building Names
     # returns (2d Arr) Entropy Calculations over Time
     def calc_cum_entropy(self):
-        bldg_entr_over_t = []
         bldg_names = self.classifications[0]
+        classifications = self.classifications[2]
+        return self.calc_cum_entropy_helper(bldg_names, classifications)
+
+    # Calculate Cumulative Entropy Helper Function
+    # returns (arr) Associated Building Names
+    # returns (2d Arr) Entropy Calculations over Time
+    def calc_cum_entropy_helper(self, bldg_names, classifications):
+        bldg_entr_over_t = []
         for i in range(0, len(bldg_names)):
             entr_over_t = []
-            for j in range(1, len(bldg_names)):
-                entr = self.entropy_calc(pd.Series(self.classifications[2][i][:j]))
+            for j in range(1, len(classifications[0])):
+                entr = self.entropy_calc(pd.Series(classifications[i][:j]))
                 entr_over_t.append(entr)
             bldg_entr_over_t.append(entr_over_t)
         return bldg_names, bldg_entr_over_t
 
+
     # Create A Heatmap of the Cumulative Entropy of Buildings Over Time
     def graph_cum_entropy(self):
         y_labels, entropy = self.calc_cum_entropy()
-        x_labels = [i for i in range(len(entropy))]
+        x_labels = [i for i in range(len(entropy[0]))]
         title = "Cumulative Entropy Heatmap"
         self.create_heatmap(entropy, title=title, xlabels=x_labels, ylabels=y_labels)
 

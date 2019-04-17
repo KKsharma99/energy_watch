@@ -176,8 +176,9 @@ class Classify:
             for classified in classifications:
                 counts[classified + 1] += 1
 
-        for i in len(counts): print(type_labels + ": " + str(counts[i]))
-        
+        print("Classification Type Frequency")
+        for i in range(len(counts)): print(type_labels[i] + ": " + str(counts[i]))
+
         plt.title("Classification Type Frequency")
         plt.bar(x=[0,1,2,3,4,5], height=counts, tick_label=type_labels)
         plt.xticks(rotation='vertical')
